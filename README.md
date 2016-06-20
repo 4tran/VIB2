@@ -15,7 +15,7 @@ So, with this project, I will be using libraries as I see fit, but I won't be us
 As I did before, I intend for this software to be something relatively easy to install and use. However, that stage of development is still far off.
 
 ## License 
-Please see the [LICENSE.md](https://github.com/4tran/VIB2/blob/master/LICENSE.md) included in the root of this repository. For a summary, please see [the following site](http://choosealicense.com/licenses/agpl-3.0/).
+Please see the [LICENSE](https://github.com/4tran/VIB2/blob/master/LICENSE) included in the root of this repository. For a summary, please see [the following site](http://choosealicense.com/licenses/agpl-3.0/).
 
 ## Contributing
 I'll write stricter guidelines in the future, but for now, if you have something you'd like to contribute, feel free to submit a pull request or create an issue asking if what you'd like to do fits this repository.
