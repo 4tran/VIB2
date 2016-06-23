@@ -19,8 +19,14 @@ $query->bindParam(':subtitle', $subtitle);
 // Execute the query.
 $query->execute();
 
-// Create directories and index files.
+// Create directory for board files to be stored in.
 if (!file_exists("../$uri")) {
     mkdir("../$uri", 0777, true);
 }
+// Create json file with general information. 
+$index_json = $twig->render('board_index.json', array('uri' => $uri, 'title' => $title, 'subtitle' => $subtitle));
+$file_index_json = fopen("../$url/index.json", "w");
+f_write($file_index_json, $index_json);
+f_close($file_index_json);
+
 ?>
