@@ -1,6 +1,6 @@
 <?php
 require '../../res/config.php';
-require '../../res/twig_loader.php';
+require $config['root'] . '/res/twig_loader.php';
 
 // Set variables to be used more than once from user submission.
 $uri = $_POST['uri'];
@@ -20,13 +20,13 @@ $query->bindParam(':subtitle', $subtitle);
 $query->execute();
 
 // Create directory for board files to be stored in.
-if (!file_exists("../$uri")) {
+if (!file_exists($config['root'] . "/public/$uri")) {
     mkdir("../$uri", 0777, true);
 }
 // Create json file with general information. 
 $index_json = $twig->render('board_index.json', array('uri' => $uri, 'title' => $title, 'subtitle' => $subtitle));
-$file_index_json = fopen("../$url/index.json", "w");
-f_write($file_index_json, $index_json);
-f_close($file_index_json);
+$file_index_json = fopen($config['root'] . "/public/$uri/index.json", "w");
+fwrite($file_index_json, $index_json);
+fclose($file_index_json);
 
 ?>
