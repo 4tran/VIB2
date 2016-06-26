@@ -1,5 +1,5 @@
 {
-    "uri": {{ uri }},
-    "title": {{ title }},
-    "subtitle": {{ subtitle }}
+    "uri": "{{ uri }}",
+    "title": "{{ title }}",
+    "subtitle": "{{ subtitle }}"
 }
