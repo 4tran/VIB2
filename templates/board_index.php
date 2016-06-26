@@ -15,21 +15,20 @@ $query->bindParam(':uri', $uri);
 $query->execute();
 $op_ids = $query->fetchAll();
 
-// Get last 3 replies from threads.
-$query = "select * from posts where uri = :uri and id = :op  union select * from (select * from posts where uri = :uri and op = :op order by id desc limit 3) x     order by id asc";
-$query = $db->prepare($query);
-$query->bindParam(':uri', $uri);
+// Get last 3 replies from thread.
 for ($i = 0; $i < count($op_ids); $i++) {
-    $query->bindParam(':op', $op_ids[$i]['id']);
-    $query->execute();
-    if ($i < 1) {
-        $posts = preg_replace("/(}])/mi", "},", json_encode($query->fetchAll()));
+    $id = $op_ids[$i][0];
+    if ($i == 0) {
+        $query = "select * from (select * from posts where uri = '" . $uri . "' and id = '" . $id . "' union select * from (select * from posts where uri = '" . $uri . "' and op = '" . $id . "' order by id desc limit 3) x order by id asc) x";
     }
     else {
-        $posts .= preg_replace("/(\\[{)/mi", "{", json_encode($query->fetchAll()));
-    }   
+        $query .= " union select * from (select * from posts where uri = '" . $uri . "' and id = '" . $id . "' union select * from (select * from posts where uri = '" . $uri . "' and op = '" . $id . "' order by id desc limit 3) x order by id asc) x";
+    }
 }
-$posts = json_decode($posts);
+$query = $db->prepare($query);
+$query->execute();
+$posts = $query->fetchAll();
+
 // After all the logic is done, render the index.
 echo $twig->render('board_index.html', array(
     'title' => $title,
