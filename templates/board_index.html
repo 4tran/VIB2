@@ -5,6 +5,7 @@
 <body>
     <h1>{{ title }}</h1>
     <h2>{{ subtitle }}</h2>
+    {% include 'post_form.html' %}
     {% for post in posts %}
         {% if post.id ==  post.op %}
             {% set op = post.op %}

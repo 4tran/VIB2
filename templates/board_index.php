@@ -33,6 +33,8 @@ $posts = $query->fetchAll();
 echo $twig->render('board_index.html', array(
     'title' => $title,
     'subtitle' => $subtitle,
-    'posts' => $posts
+    'posts' => $posts,
+    'uri' => $uri,
+    'type' => 'thread'
 ));
 ?>

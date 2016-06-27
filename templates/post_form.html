@@ -1,0 +1,12 @@
+<div class="post">
+    <form class="post_form" action="/post.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="uri" value="{{ uri }}"/>
+        <input type="hidden" name="op" value="{{ op }}"/>
+        <input type="hidden" name="type" value="{{ type }}"/>
+        <label for="name">Name: </label><input type="text" name="username" id="username"/><br/>
+        <textarea name="content" id="content" rows="5" cols="40"></textarea><br/>
+        <input type="hidden" name="MAX_FILE_SIZE" value="5000000"/>
+        <input type="file" name="image" id="image"/><br/>  
+        <input type="submit" value="Post"/>
+    </form>
+</div>
