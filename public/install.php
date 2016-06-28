@@ -15,6 +15,7 @@ $db->query("create table posts (
   thumbnail text not null,
   timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   bump timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  ip text not null,
   PRIMARY KEY (id)
 )");
 
