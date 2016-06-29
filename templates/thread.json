@@ -1,0 +1,5 @@
+{
+    "uri": "{{ uri }}",
+    "id": "{{ id }}",
+    "title": "{{ content }}"
+}
