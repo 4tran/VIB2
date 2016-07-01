@@ -6,11 +6,11 @@ require $config['root'] . '/inc/bulletproof/src/utils/func.image-resize.php';
 
 // Define variables to be used more than once.
 $uri = $_POST['uri'];
-$op = $_POST['uri'];
+$op = $_POST['op'];
 $type = $_POST['type'];
 $name = htmlspecialchars($_POST['name']);
 $content = htmlspecialchars($_POST['content']);
-$image = new Bulletproof\Image($_FILES);
+$image = $_FILES['image'];
 $ip = $_SERVER['REMOTE_ADDR'];
 $dir = $config['root'] . "/public/$uri";
 $errors = array();
@@ -28,7 +28,13 @@ if (strlen($content) < 5) {
 if (strlen($content) > 2000) {
     array_push($errors, 'Post content too long.');
 }
-
+// If the image exists, allow it to be processed.
+if ($image['name'] != '') {
+    $image = new Bulletproof\Image($_FILES);
+}
+if ($image['name'] == '') {
+    $image = '';
+}
 // Errors only to be applied to threads.
 if ($type == 'thread') {
     if ($_FILES['image']['tmp_name'] == '') {
@@ -58,7 +64,7 @@ if (count($errors) == 0) {
         mkdir("$dir/$id");
 
         // Render and create thread.json
-        $thread_json = $twig->render('thread.json', array('uri' => $uri, 'id' => $id, 'content' => $content));
+        $thread_json = $twig->render('thread.json', array('uri' => $uri, 'op' => $op, 'content' => $content));
         $file_thread_json = fopen("$dir/$op/index.json", "w");
         fwrite($file_thread_json, $thread_json);
         fclose($file_thread_json);
@@ -91,8 +97,7 @@ if (count($errors) == 0) {
 
     // If the post is a reply, the thread needs to be bumped.
     if ($type == 'reply') {
-        $query = $db->prepare("update posts set bump = :bump where uri = :uri and id = :id");
-        $query->bindParam(':bump', now());
+        $query = $db->prepare("update posts set bump = now() where uri = :uri and id = :id");
         $query->bindParam(':uri', $uri);
         $query->bindParam(':id', $op);
         $query->execute();
