@@ -87,8 +87,7 @@ if (count($errors) == 0) {
         $image = "/$uri/$id/res/" . $image->getName() . "." . $image->getMime();
     }
 
-    // Insert data into database.    
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Insert data into database.
     $query = $db->prepare("insert into posts (uri, id, op, name, content, image, thumbnail, ip)
         values (:uri, :id, :op, :name, :content, :image, :thumbnail, :ip)");
     $query->bindValue(':uri', $uri);
