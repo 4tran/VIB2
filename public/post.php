@@ -17,7 +17,7 @@ $errors = array();
 
 // Things that are true of both new threads and replies.
 // Set default name if user submitted name is blank.
-if ($name == '') {
+if (empty($name)) {
     $name = 'Anonymous';
 }
 // Check, before modifying content, if post is too short.
@@ -28,16 +28,14 @@ if (strlen($content) < 5) {
 if (strlen($content) > 2000) {
     array_push($errors, 'Post content too long.');
 }
-// If the image exists, allow it to be processed.
-if ($image['name'] != '') {
-    $image = new Bulletproof\Image($_FILES);
-}
-if ($image['name'] == '') {
+// If the image doesn't exist, set variables accordingly (for query)
+if (empty($image['name'])) {
     $image = '';
+    $thumbnail = '';
 }
 // Errors only to be applied to threads.
 if ($type == 'thread') {
-    if ($_FILES['image']['tmp_name'] == '') {
+    if (empty($image)) {
         array_push($errors, 'New threads must have an image.');
     }
 }
@@ -50,11 +48,16 @@ if (count($errors) > 0) {
 
 // If there are no errors, create the post. 
 if (count($errors) == 0) {
-    // Get id of last post + 1.
-    $query = $db->prepare("select id from posts where uri = :uri order by id desc limit 1");
-    $query->bindParam(':uri', $uri);
+    // Update the post count.
+    $query = $db->prepare("update boards set post_count = post_count + 1 where uri = :uri");
+    $query->bindValue(':uri', $uri);
     $query->execute();
-    $id = $query->fetchAll()[0][0] + 1;
+
+    // Get the id of the new post.
+    $query = $db->prepare("select post_count from boards where uri = :uri");
+    $query->bindValue(':uri', $uri);
+    $query->execute();
+    $id = $query->fetchAll()[0][0];
 
     // If the post is a new thread, some extra stuff's gonna have to be done.
     if ($type == 'thread') {
@@ -73,33 +76,36 @@ if (count($errors) == 0) {
         copy($config['root'] . "/templates/thread.php", "$dir/$id/index.php");
     }
 
-	// Verify and process image.
-    if ($image['image']) {
+    // Verify and process image.
+    if (!empty($image)) {
+        $image = new Bulletproof\Image($_FILES);
         $image->setLocation("$dir/$op/res");
         $image->setSize(0, 5000000);
-        $image->setDimension(5000, 5000); 
+        $image->setDimension(5000, 5000);
         $image->setMime(array('jpeg', 'jpg', 'gif', 'png'));
         $image->upload();
         $image = "/$uri/$id/res/" . $image->getName() . "." . $image->getMime();
     }
 
-	// Insert data into database.
-    $query = $db->prepare("insert into posts (uri, id, op, name, content, image, ip)
-        values (:uri, :id, :op, :name, :content, :image, :ip)");
-    $query->bindParam(':uri', $uri);
-    $query->bindParam(':id', $id);
-	$query->bindParam(':op', $op);
-	$query->bindParam(':name', $name);
-	$query->bindParam(':content', $content);
-	$query->bindParam(':image', $image);
-    $query->bindParam(':ip', $ip);
+    // Insert data into database.    
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $query = $db->prepare("insert into posts (uri, id, op, name, content, image, thumbnail, ip)
+        values (:uri, :id, :op, :name, :content, :image, :thumbnail, :ip)");
+    $query->bindValue(':uri', $uri);
+    $query->bindValue(':id', $id);
+	$query->bindValue(':op', $op);
+	$query->bindValue(':name', $name);
+	$query->bindValue(':content', $content);
+    $query->bindValue(':image', $image);
+    $query->bindValue(':thumbnail', $thumbnail);
+    $query->bindValue(':ip', $ip);
     $query->execute();
 
     // If the post is a reply, the thread needs to be bumped.
     if ($type == 'reply') {
         $query = $db->prepare("update posts set bump = now() where uri = :uri and id = :id");
-        $query->bindParam(':uri', $uri);
-        $query->bindParam(':id', $op);
+        $query->bindValue(':uri', $uri);
+        $query->bindValue(':id', $op);
         $query->execute();
     }
 

@@ -12,9 +12,9 @@ $query = "insert into boards (uri, title, subtitle) values (:uri, :title, :subti
 $query = $db->prepare($query);
 
 // Bind user submitted variables to query.
-$query->bindParam(':uri', $uri);
-$query->bindParam(':title', $title);
-$query->bindParam(':subtitle', $subtitle);
+$query->bindValue(':uri', $uri);
+$query->bindValue(':title', $title);
+$query->bindValue(':subtitle', $subtitle);
 
 // Execute the query.
 $query->execute();

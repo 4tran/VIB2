@@ -11,8 +11,8 @@ $title = $thread['title'];
 // Get thread posts.
 $query = "select * from posts where uri = :uri and op = :op order by id asc";
 $query = $db->prepare($query);
-$query->bindParam(':uri', $uri);
-$query->bindParam(':op', $op);
+$query->bindValue(':uri', $uri);
+$query->bindValue(':op', $op);
 $query->execute();
 $posts = $query->fetchAll();
 

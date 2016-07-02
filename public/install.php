@@ -6,17 +6,16 @@ $db->query("create table boards (uri text not null, title text not null, subtitl
 
 // Create table posts. Note that all posts are in one table, rather than each board having its own posts_(uri)
 $db->query("create table posts (
-  uri text not null,
+  uri text,
   id int(11) not null,
   op int(11) not null,
   name text not null,
   content text not null,
-  image text not null,
-  thumbnail text not null,
-  timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  bump timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  ip text not null,
-  PRIMARY KEY (id)
+  image text,
+  thumbnail text,
+  timestamp timestamp DEFAULT CURRENT_TIMESTAMP,
+  bump timestamp DEFAULT CURRENT_TIMESTAMP,
+  ip text
 )");
 
 // Create table users.
