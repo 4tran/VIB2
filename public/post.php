@@ -1,8 +1,6 @@
 <?php
 require '../res/config.php';
 require $config['root'] . '/res/twig_loader.php';
-require $config['root'] . '/inc/bulletproof/src/bulletproof.php';
-require $config['root'] . '/inc/bulletproof/src/utils/func.image-resize.php';
 
 // Define variables to be used more than once.
 $uri = $_POST['uri'];
