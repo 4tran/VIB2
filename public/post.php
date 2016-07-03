@@ -86,6 +86,7 @@ if (count($errors) == 0) {
             $image = "/$uri/$op/res/$time$ext";
 
             // Create thumbnail.
+            // Determine what type of image to create.
             switch($ext) {
             case 'gif' :
                 $tmp_img = imagecreatefromgif($img_dir);
@@ -99,8 +100,12 @@ if (count($errors) == 0) {
             default:
                 break;
             }
+
+            // Set maximum width and height for thumbnail. In the future, variables such as these will be customizable in the site config.
             $width = 150;
             $height = 150;
+
+            // Determine the ratio for the thumbnail.
             list($width_orig, $height_orig) = getimagesize($img_dir);
             $ratio_orig = $width_orig/$height_orig;
             if ($width/$height > $ratio_orig) {
@@ -109,6 +114,10 @@ if (count($errors) == 0) {
             else {
                 $height = $width/$ratio_orig;
             }
+
+            // Create actual thumbnail, store it, record its location and delete temporary file.
+            /* A note about the extension, I know it's not elegant to create a jpg for every image type and then give it whatever extension the user's image had,
+            but I'm not willing to spend more time on this right now. That is a fix for the future. */
             $thumbnail = imagecreatetruecolor($width, $height);
             imagecopyresampled($thumbnail, $tmp_img, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
             imagejpeg($thumbnail, "$dir/$op/res/thumb_$time$ext");
@@ -139,6 +148,6 @@ if (count($errors) == 0) {
     }
 
     // If all goes well, the user will be redirected to either their new thread, or the thread they had posted in.
-    //header("Location: /$uri/$op");
+    header("Location: /$uri/$op");
 }
 ?>
