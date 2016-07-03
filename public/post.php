@@ -38,6 +38,21 @@ if ($type == 'thread') {
     }
 }
 // Format post.
+// Link quotes
+preg_match_all("/(\\&gt\\;\\&gt\\;)(\\d+)/mi", $content, $matches);
+$query = $db->prepare("select op from posts where id = :id and uri = :uri");
+$query->bindValue(':uri', $uri);
+foreach ($matches[2] as $link_id) {
+    $query->bindValue(':id', $link_id);
+    $query->execute();
+    $link_op = $query->fetchAll()[0][0];
+    var_dump($link_op);
+    if (!empty($link_op)) {
+        $content = preg_replace("/(\\&gt\\;\\&gt\\;)($link_id)/mi", "<a href=\"/$uri/$link_op#$link_id\">$1$2</a>", $content);
+    }
+}
+// Text quotes / greentext
+$content = preg_replace("/^(\\&gt\\;.+)/mi", "<p class=\"quote\">$1</p>", $content);
 
 // If there are errors, spit them out to the user.
 if (count($errors) > 0) {
@@ -148,6 +163,6 @@ if (count($errors) == 0) {
     }
 
     // If all goes well, the user will be redirected to either their new thread, or the thread they had posted in.
-    header("Location: /$uri/$op");
+    header("Location: /$uri/$op#$id");
 }
 ?>

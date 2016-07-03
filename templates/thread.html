@@ -19,7 +19,7 @@
                 <img src="{{ post.thumbnail }}" id="{{ post.id }}" onclick="resize({{ post.id }})" alt="Full Size">
             </div>
             <div class="op_content">
-                <p>{{ post.content }}</p>
+                <pre>{{ post.content }}</pre>
             </div>
         </div>
     {% endif %}
@@ -34,7 +34,7 @@
             </div>
             {% endif %}
             <div class="reply_content">
-                <p>{{ post.content }}</p>
+                <pre>{{ post.content }}</pre>
             </div>
         </div>
     {% endif %}

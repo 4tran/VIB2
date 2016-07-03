@@ -16,13 +16,22 @@ a:link, a:visited, a:hover,a:active {
 }
 p {
     display: inline;
+    white-space: nowrap;
 }
 .op_info, .reply_info {
     color: #326f32;
 }
+.image {
+    float: left;
+    margin: 5px;
+}
 .op, .reply {
     margin-bottom: 5px;
-    width: 30%;
+    width: 70%;
+    clear: both;
+}
+.op_content {
+    clear: both;
 }
 .op {
     border-style: solid;
@@ -35,7 +44,6 @@ p {
 .reply {
     margin-left: 20px;
 }
-
 .post {
     text-align: center;
 }
@@ -57,11 +65,17 @@ input, textarea {
     margin: 2px 0 2px 0;
     color: #d3d3d3;
 }
-div.line {
+.line {
     width: 100%;
     border: 1px;
     border-style: solid;
     border-bottom: 0px;
     border-color: #515151;
+}
+pre {
+    margin: 0px 0px 0px 0px;
+}
+.quote {
+    color: #84A946;
 }
 
