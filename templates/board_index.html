@@ -1,29 +1,41 @@
+{% autoescape false %}
 <html>
 <head>
     <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/style/main.css">
+    <script type="text/javascript" src="/js/image-resize.js"></script>
+    <script type="text/javascript" src="/js/quote.js"></script>
 </head>
 <body>
     <h1>{{ title }}</h1>
-    <h2>{{ subtitle }}</h2>
+    <h3>{{ subtitle }}</h3>
     {% include 'post_form.html' %}
     {% for post in posts %}
         {% if post.id ==  post.op %}
             {% set op = post.op %}
-                <div class="op">
-                    <div class="line"></div>
-                    <div class="op_info">
-                        <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a> <a href="{{ post.id }}">[reply]</a>
-                    </div>
-                    <div class="op_content">
-                        <p>{{ post.content }}</p>
-                    </div>
+            <div class="line"></div>
+            <div class="op">
+                <div class="op_info">
+                    <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a> <a href="{{ post.id }}">[reply]</a>
                 </div>
+                <div class="image">
+                    <img src="{{ post.thumbnail }}" id="{{ post.id }}" onclick="resize({{ post.id }})" alt="Full Size">
+                </div>
+                <div class="op_content">
+                    <p>{{ post.content }}</p>
+                </div>
+            </div>
             {% for post in posts %}
                 {% if post.op == op and post.id != op %}
                     <div class="reply">    
                         <div class="reply_info">
                             <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a>
                         </div>
+                        {% if post.image %}
+						<div class="image">
+                            <img src="{{ post.thumbnail }}" id="{{ post.id }}" onclick="resize({{ post.id }})" alt="Full Size">
+                        </div>
+                        {% endif %}
                         <div class="reply_content">
                             <p>{{ post.content }}</p>
                         </div>
@@ -34,3 +46,4 @@
     {% endfor %}
 </body>
 </html>
+{% endautoescape %}
