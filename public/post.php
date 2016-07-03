@@ -64,7 +64,8 @@ if (count($errors) == 0) {
 		// New threads will always have equal id and op fields.
         $op = $id;
         // Make directory.
-        mkdir("$dir/$id");
+        mkdir("$dir/$id", 0777);
+        mkdir("$dir/$id/res", 0777);
 
         // Render and create thread.json
         $thread_json = $twig->render('thread.json', array('uri' => $uri, 'op' => $op, 'content' => $content));
@@ -78,15 +79,46 @@ if (count($errors) == 0) {
 
     // Verify and process image.
     if (!empty($image)) {
-        $image = new Bulletproof\Image($_FILES);
-        $image->setLocation("$dir/$op/res");
-        $image->setSize(0, 5000000);
-        $image->setDimension(5000, 5000);
-        $image->setMime(array('jpeg', 'jpg', 'gif', 'png'));
-        $image->upload();
-        $image = "/$uri/$id/res/" . $image->getName() . "." . $image->getMime();
-    }
+        // Ensure the image is actually an image.
+        if (getimagesize($image['tmp_name'])['mime'] == 'image/jpeg' or 'image/png' or 'image/gif') {
+            $ext = image_type_to_extension(getimagesize($image['tmp_name'])[2]);
+            $time = time();
+            $img_dir = "$dir/$op/res/$time$ext";
+            move_uploaded_file($image['tmp_name'], $img_dir);
+            $image = "/$uri/$op/res/$time$ext";
 
+            // Create thumbnail.
+            switch($ext) {
+            case 'gif' :
+                $tmp_img = imagecreatefromgif($img_dir);
+                break;
+            case 'png' :
+                $tmp_img = imagecreatefrompng($img_dir);
+                break;
+            case 'jpg' or 'jpeg' :
+                $tmp_img = imagecreatefromjpeg($img_dir);
+                break;
+            default:
+                break;
+            }
+            $width = 150;
+            $height = 150;
+            list($width_orig, $height_orig) = getimagesize($img_dir);
+            $ratio_orig = $width_orig/$height_orig;
+            if ($width/$height > $ratio_orig) {
+                $width = $height*$ratio_orig;
+            }
+            else {
+                $height = $width/$ratio_orig;
+            }
+            $thumbnail = imagecreatetruecolor($width, $height);
+            imagecopyresampled($thumbnail, $tmp_img, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+            imagejpeg($thumbnail, "$dir/$op/res/thumb_$time$ext");
+            imagedestroy($thumbnail);
+            $thumbnail = "/$uri/$op/res/thumb_$time$ext"; 
+        }
+    }
+    
     // Insert data into database.
     $query = $db->prepare("insert into posts (uri, id, op, name, content, image, thumbnail, ip)
         values (:uri, :id, :op, :name, :content, :image, :thumbnail, :ip)");
@@ -109,6 +141,6 @@ if (count($errors) == 0) {
     }
 
     // If all goes well, the user will be redirected to either their new thread, or the thread they had posted in.
-    header("Location: /$uri/$op");
+    //header("Location: /$uri/$op");
 }
 ?>
