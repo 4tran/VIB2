@@ -38,6 +38,11 @@ if ($type == 'thread') {
     }
 }
 // Format post.
+// Set thread title.
+if ($type == 'thread') {
+    $title = substr(trim(preg_replace("/\s+/", " ", $content)), 0, 20);
+}
+
 $content = htmlspecialchars($content);
 // Link quotes
 preg_match_all("/(\\&gt\\;\\&gt\\;)(\\d+)/mi", $content, $matches);
@@ -81,7 +86,7 @@ if (count($errors) == 0) {
         mkdir("$dir/$id/res", 0777);
 
         // Render and create thread.json
-        $thread_json = $twig->render('thread.json', array('uri' => $uri, 'op' => $op, 'content' => $content));
+        $thread_json = $twig->render('thread.json', array('uri' => $uri, 'op' => $op, 'title' => $title));
         $file_thread_json = fopen("$dir/$op/index.json", "w");
         fwrite($file_thread_json, $thread_json);
         fclose($file_thread_json);

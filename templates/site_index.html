@@ -1,3 +1,4 @@
+{% autoescape false %}
 <html>
 <head>
     <title>{{ title }}</title>
@@ -5,5 +6,27 @@
 </head>
 <body>
     <h1>{{ title }}</h1>
+    <div class="wrap">
+        <h3>Boards</h3>
+        <div class="inner"> 
+            {% for board in boards %}
+                {% if boards|length < 2 %}
+                    | <a href="/{{ board.uri }}/">{{ board.title }}</a> |
+                {% endif %}
+                {% if boards|length > 1 %}
+                    | <a href="/{{ board.uri }}/">{{ board.title }}</a> 
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="wrap">
+        <h3>Latest posts</h3>
+        <div class="inner">
+            {% for post in posts %}
+            <a href="/{{ post.uri }}/">[{{ post.uri }}]</a> - <p>{{ post.content }}</p> <a href="/{{ post.uri }}/{{ post.op }}#{{ post.id }}">[reply]</a><br/>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
+{% endautoescape %}
