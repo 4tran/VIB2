@@ -7,6 +7,9 @@
     <script type="text/javascript" src="/js/quote.js"></script>
 </head>
 <body>
+    {% for board in boards %}
+        <a href="/{{ board.uri }}/">[{{ board.uri }}]</a> 
+    {% endfor %}
     <h1>{{ title }}</h1>
     <h3>{{ subtitle }}</h3>
     {% include 'post_form.html' %}

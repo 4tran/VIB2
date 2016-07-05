@@ -7,7 +7,7 @@ $uri = $_POST['uri'];
 $op = $_POST['op'];
 $type = $_POST['type'];
 $name = htmlspecialchars($_POST['name']);
-$content = htmlspecialchars($_POST['content']);
+$content = $_POST['content'];
 $image = $_FILES['image'];
 $ip = $_SERVER['REMOTE_ADDR'];
 $dir = $config['root'] . "/public/$uri";
@@ -38,6 +38,7 @@ if ($type == 'thread') {
     }
 }
 // Format post.
+$content = htmlspecialchars($content);
 // Link quotes
 preg_match_all("/(\\&gt\\;\\&gt\\;)(\\d+)/mi", $content, $matches);
 $query = $db->prepare("select op from posts where id = :id and uri = :uri");
@@ -46,7 +47,6 @@ foreach ($matches[2] as $link_id) {
     $query->bindValue(':id', $link_id);
     $query->execute();
     $link_op = $query->fetchAll()[0][0];
-    var_dump($link_op);
     if (!empty($link_op)) {
         $content = preg_replace("/(\\&gt\\;\\&gt\\;)($link_id)/mi", "<a href=\"/$uri/$link_op#$link_id\">$1$2</a>", $content);
     }

@@ -7,6 +7,9 @@
 	<script type="text/javascript" src="/js/quote.js"></script>
 </head>
 <body>
+{% for board in boards %}
+    <a href="/{{ board.uri }}/">[{{ board.uri }}]</a> 
+{% endfor %}
 {% include 'post_form.html' %}
 {% for post in posts %}
     {% if post.id == post.op %}
@@ -39,6 +42,7 @@
         </div>
     {% endif %}
 {% endfor %}
+<a href="/{{ uri }}/">[return]</a>
 </body>
 </html>
 {% endautoescape %}
