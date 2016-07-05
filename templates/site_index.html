@@ -8,7 +8,7 @@
     <h1>{{ title }}</h1>
     <div class="wrap">
         <h3>Boards</h3>
-        <div class="inner"> 
+        <div class="inner">
             {% for board in boards %}
                 {% if boards|length < 2 %}
                     | <a href="/{{ board.uri }}/">{{ board.title }}</a> |
@@ -23,7 +23,17 @@
         <h3>Latest posts</h3>
         <div class="inner">
             {% for post in posts %}
-            <a href="/{{ post.uri }}/">[{{ post.uri }}]</a> - <p>{{ post.content }}</p> <a href="/{{ post.uri }}/{{ post.op }}#{{ post.id }}">[reply]</a><br/>
+                <a href="/{{ post.uri }}/">[{{ post.uri }}]</a> - <p>{{ post.content }}</p> <a href="/{{ post.uri }}/{{ post.op }}#{{ post.id }}">[reply]</a><br/>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="wrap">
+        <h3>Latest images</h3>
+        <div class="inner">
+            {% for image in images %}
+                <a href="/{{ image.uri }}/{{ image.op }}#{{ image.id }}">
+                    <img src="{{ image.thumbnail }}">
+                </a>
             {% endfor %}
         </div>
     </div>

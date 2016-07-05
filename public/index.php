@@ -12,12 +12,18 @@ $query = $db->prepare("select uri, content, id, op from posts order by id desc l
 $query->execute();
 $posts = $query->fetchAll();
 for ($i = 0; $i < count($posts); $i++) {
-    $posts[$i]['content'] = substr(trim(preg_replace("/\s+/", " ", $posts[$i]['content'])), 0, 80);
+    $posts[$i]['content'] = substr(trim(preg_replace("/\s+/", " ", $posts[$i]['content'])), 0, 150);
 }
+
+// Get list of latest images.
+$query = $db->prepare("select * from (select thumbnail, op, id, uri from posts where thumbnail <> '' order by id desc) x limit 5");
+$query->execute();
+$images = $query->fetchAll();
 
 echo $twig->render('site_index.html', array(
     'title' => $config['site_name'],
     'boards' => $boards,
-    'posts' => $posts
+    'posts' => $posts,
+    'images' => $images
 ));
 ?>

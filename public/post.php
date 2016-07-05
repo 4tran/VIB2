@@ -108,13 +108,13 @@ if (count($errors) == 0) {
             // Create thumbnail.
             // Determine what type of image to create.
             switch($ext) {
-            case 'gif' :
+            case '.gif' :
                 $tmp_img = imagecreatefromgif($img_dir);
                 break;
-            case 'png' :
+            case '.png' :
                 $tmp_img = imagecreatefrompng($img_dir);
                 break;
-            case 'jpg' or 'jpeg' :
+            case '.jpg' or '.jpeg' :
                 $tmp_img = imagecreatefromjpeg($img_dir);
                 break;
             default:
@@ -135,12 +135,28 @@ if (count($errors) == 0) {
                 $height = $width/$ratio_orig;
             }
 
-            // Create actual thumbnail, store it, record its location and delete temporary file.
-            /* A note about the extension, I know it's not elegant to create a jpg for every image type and then give it whatever extension the user's image had,
-            but I'm not willing to spend more time on this right now. That is a fix for the future. */
+            // Create actual thumbnail, store it, record its location and delete temporary file. 
             $thumbnail = imagecreatetruecolor($width, $height);
+            // Transparency.
+            if ($ext == '.png' or '.gif') {
+                imagealphablending($thumbnail, false);
+                imagesavealpha($thumbnail, true);
+            }
             imagecopyresampled($thumbnail, $tmp_img, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-            imagejpeg($thumbnail, "$dir/$op/res/thumb_$time$ext");
+            // Determine what type of image to create.
+            switch($ext) {
+             case '.gif' :
+                 imagegif($thumbnail, "$dir/$op/res/thumb_$time$ext");
+                 break;
+             case '.png' :
+                 imagepng($thumbnail, "$dir/$op/res/thumb_$time$ext");
+                 break;
+             case '.jpg' or '.jpeg' :
+                 imagejpeg($thumbnail, "$dir/$op/res/thumb_$time$ext");
+                 break;
+             default:
+                 break;
+             } 
             imagedestroy($thumbnail);
             $thumbnail = "/$uri/$op/res/thumb_$time$ext"; 
         }
