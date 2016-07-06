@@ -10,12 +10,7 @@
         <h3>Boards</h3>
         <div class="inner">
             {% for board in boards %}
-                {% if boards|length < 2 %}
-                    | <a href="/{{ board.uri }}/">{{ board.title }}</a> |
-                {% endif %}
-                {% if boards|length > 1 %}
-                    | <a href="/{{ board.uri }}/">{{ board.title }}</a> 
-                {% endif %}
+                <a href="/{{ board.uri }}/" style="margin: 5px;">{{ board.title }}</a>
             {% endfor %}
         </div>
     </div>
@@ -29,7 +24,7 @@
     </div>
     <div class="wrap">
         <h3>Latest images</h3>
-        <div class="inner">
+        <div class="inner" style="text-align: center;">
             {% for image in images %}
                 <a href="/{{ image.uri }}/{{ image.op }}#{{ image.id }}">
                     <img src="{{ image.thumbnail }}">
