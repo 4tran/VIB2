@@ -1,0 +1,13 @@
+<div class="wrap">
+    <h3>Delete board</h3>
+    <div class="inner">
+        <pre>Clicking the button next to the board title containing the board uri will delete the entire board.
+This includes all posts in the database, as well as the directory in which it was once contained, recursively destroying all files and subdirectories.
+Be careful while using this page. You have been warned.</pre>
+        <form action="mod/delete_board.php" method="post"> 
+            {% for board in boards %}
+                <br/>{{ board.title }} - <input type="submit" name="board" value="{{ board.uri }}" />
+            {% endfor %}
+        </form>
+    </div>
+</div>

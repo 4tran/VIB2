@@ -8,12 +8,14 @@ $query = $db->prepare("select * from users");
 $query->execute();
 $users = $query->fetchAll();
 
+session_start();
+
 if ($username == $users[0]['username'] && password_verify($password, $users[0]['password'])) {
-    setcookie("admin", "true", time()+3600, "/");
+    $_SESSION['admin'] = 'true';
     header("Location: /mod.php");
 }
 else {
-    setcookie("admin", "false", time()+3600, "/");
+    $_SESSION['admin'] = 'false';
     echo "Incorrect username or password";
 }
 ?>

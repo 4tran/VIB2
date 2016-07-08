@@ -1,16 +1,10 @@
-<html>
-<head>
-  <title>{{ title }}</title>
-</head>
-<body>
-  <p>{{ title }} - Create board</p>
-  <div class="post">
-    <form class="board_create" action="/mod/create_board.php" method="post">
-      <label for="uri">Board url: </label><input type="text" name="uri" id="uri"><br/>
-      <label for="title">Board title: </label><input type="text" name="title" id="title"><br/>
-      <label for="subtitle">Board subtitle: </label><input type="text" name="subtitle" id="subtitle"><br/>
-      <input type="submit" value="Create Board">
-    </form>
-  </div>
-</body>
-</html>
+<div class="post">
+    <div class="post_form">
+        <form class="board_create" action="/mod/create_board.php" method="post" style="margin-bottom: 0px;">
+            <label for="uri">Board url: </label><input type="text" name="uri" id="uri"/><br/>
+            <label for="title">Board title: </label><input type="text" name="title" id="title"/><br/>
+            <label for="subtitle">Board subtitle: </label><input type="text" name="subtitle" id="subtitle"/><br/>
+            <input type="submit" value="Create Board"/>
+        </form">
+    </div>
+</div>

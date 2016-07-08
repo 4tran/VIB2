@@ -28,7 +28,12 @@
     {% endif %}
     {% if post.id != op %}
         <div class="reply">
-            <div class="reply_info">
+            {% if post.image %}
+                <div class="reply_info">
+            {% endif %}
+            {% if not post.image %}
+                <div class="reply_info" id="{{ post.id }}">
+            {% endif %}
                 <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a>
             </div>
             {% if post.image %}

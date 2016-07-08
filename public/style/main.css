@@ -44,6 +44,9 @@ p {
 .reply {
     margin-left: 20px;
 }
+form {
+    margin-bottom: 0px;
+}
 .post {
     text-align: center;
 }
@@ -51,6 +54,7 @@ p {
     display: inline-block;
     text-align: left;
     margin-top: 20px;
+    margin-bottom: 20px;
     border: 2px;
     border-style: solid;
     border-radius: 3px 3px 3px 3px;
