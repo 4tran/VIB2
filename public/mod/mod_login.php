@@ -9,13 +9,23 @@ $query->execute();
 $users = $query->fetchAll();
 
 session_start();
+$logged_in = false;
 
-if ($username == $users[0]['username'] && password_verify($password, $users[0]['password'])) {
-    $_SESSION['admin'] = 'true';
+// Check for valid login.
+for ($i = 0; $i < count($users); $i++) {
+    if ($username == $users[$i]['username'] && password_verify($password, $users[$i]['password'])) {
+        $_SESSION['username'] = $users[$i]['permission'];
+        $_SESSION['password'] = $users[$i]['password'];
+        $_SESSION['permission'] = $users[$i]['permission'];
+        $logged_in = true;
+        break;
+    }
+}
+
+if ($logged_in == true) {
     header("Location: /mod.php");
 }
 else {
-    $_SESSION['admin'] = 'false';
-    echo "Incorrect username or password";
+    echo "Invalid login.";
 }
 ?>

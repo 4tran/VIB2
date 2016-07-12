@@ -19,14 +19,13 @@ $db->query("create table posts (
 )");
 
 // Create table users.
-$db->query("create table users (username text not null, password text not null)");
+$db->query("create table users (username text not null, password text not null, permission text not null)");
 
 // Generate hashed password. This will be able to be changed later in the mod panel.
 $password = password_hash("admin", PASSWORD_DEFAULT); 
 
 // Create new user "admin"
-$query = "insert into users (username, password) values ('admin', :password)";
-$query = $db->prepare($query);
+$query = $db->prepare("insert into users (username, password, permission) values ('admin', :password, 'admin')");
 $query->bindParam(':password', $password);
 $query->execute();
 

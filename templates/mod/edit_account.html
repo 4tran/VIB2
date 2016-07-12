@@ -1,0 +1,10 @@
+<div class="post">
+    <form class="post_form" action="/mod/edit_account.php" method="POST">
+        <input type="hidden" name="orig_username" value="{{ username }}"/>
+        <input type="hidden" name="orig_password" value="{{ password }}"/>
+        <label for="username">New username: </label><input type="text" name="new_username"  value="{{ username }}"/><br/>
+        <label for="password">New password: </label><input type="password" name="new_password" value="{{ password }}"/><br/>
+        <input type="submit" value="Change username and/or password."/>
+    </form>
+</div>
+
