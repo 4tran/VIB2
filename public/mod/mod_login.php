@@ -14,7 +14,7 @@ $logged_in = false;
 // Check for valid login.
 for ($i = 0; $i < count($users); $i++) {
     if ($username == $users[$i]['username'] && password_verify($password, $users[$i]['password'])) {
-        $_SESSION['username'] = $users[$i]['permission'];
+        $_SESSION['username'] = $users[$i]['username'];
         $_SESSION['password'] = $users[$i]['password'];
         $_SESSION['permission'] = $users[$i]['permission'];
         $logged_in = true;

@@ -1,11 +1,12 @@
 <html>
 <head>
   <title>{{ title }}</title>
+  <link rel="stylesheet" type="text/css" href="/style/main.css">
 </head>
 <body>
-  <p>{{ title }} - Create board</p>
+    <h3>Log in to moderation panel</h3>
   <div class="post">
-    <form class="board_create" action="/mod/mod_login.php" method="post">
+    <form class="post_form" action="/mod/mod_login.php" method="post">
       <label for="username">Username: </label><input type="text" name="username" id="username"><br/>
       <label for="password">Password: </label><input type="password" name="password" id="password"><br/>    
       <input type="submit" value="Log in">

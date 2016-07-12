@@ -1,6 +1,7 @@
 <?php
 require '../res/config.php';
 require $config['root'] . '/res/twig_loader.php';
+require $config['root'] . '/public/mod/mod_logout.php';
 
 // Log in
 session_start();
@@ -19,6 +20,10 @@ if (!empty($permission)) {
 
     if (isset($_GET['edit_account'])) {
         echo $twig->render('mod/edit_account.html', array('username' => $username, 'password' => $password));
+    }
+    if (isset($_GET['mod_logout'])) {
+        mod_logout();
+        header("Location: /mod.php");
     }
     
     // Admin options

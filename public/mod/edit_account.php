@@ -1,5 +1,8 @@
 <?php
 require '../../res/config.php';
+require $config['root'] . '/public/mod/mod_logout.php';
+
+session_start();
 
 $orig_username = $_POST['orig_username'];
 $orig_password = $_POST['orig_password'];
@@ -17,6 +20,6 @@ $query->bindValue(':new_password', $new_password);
 $query->bindvalue(':orig_username', $orig_username);
 $query->execute();
 
+mod_logout();
 header("Location: /mod.php");
-
 ?>
