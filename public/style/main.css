@@ -79,6 +79,7 @@ input, textarea {
 }
 pre {
     margin: 0px 0px 0px 0px;
+    white-space: pre-wrap;
 }
 .quote {
     color: #84A946;

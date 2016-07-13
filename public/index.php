@@ -20,10 +20,22 @@ $query = $db->prepare("select * from (select thumbnail, op, id, uri from posts w
 $query->execute();
 $images = $query->fetchAll();
 
+// Get total amount of active posts
+$query = $db->prepare("select count(id) from posts");
+$query->execute();
+$active_posts = $query->fetchAll()[0][0];
+
+// Get total amount of all posts since the beginning of time
+$query = $db->prepare("select sum(post_count) from boards");
+$query->execute();
+$total_posts = $query->fetchAll()[0][0];
+
 echo $twig->render('site_index.html', array(
     'title' => $config['site_name'],
     'boards' => $boards,
     'posts' => $posts,
-    'images' => $images
+    'images' => $images,
+    'active_posts' => $active_posts,
+    'total_posts' => $total_posts
 ));
 ?>
