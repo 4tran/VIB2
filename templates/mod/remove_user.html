@@ -1,0 +1,10 @@
+<div class="wrap">
+    <h3>Remove user</h3>
+    <div class="inner">
+        <form action="/mod/remove_user.php" method="post">
+        {% for user in users %}
+            {{ user.username }} - <button name="username" value="{{ user.username }}" type="submit">Remove user</button><br/>
+        {% endfor %}
+        </form>
+    </div>
+</div>

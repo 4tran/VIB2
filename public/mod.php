@@ -34,6 +34,12 @@ if (!empty($permission)) {
         if (isset($_GET['delete_board'])) {
             include $config['root'] . '/templates/mod/delete_board.php';
         }
+        if (isset($_GET['add_user'])) {
+            echo $twig->render('mod/add_user.html');
+        }
+        if (isset($_GET['remove_user'])) {
+            include $config['root'] . '/templates/mod/remove_user.php';
+        }
     }
 
     // Moderator options

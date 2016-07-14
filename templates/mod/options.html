@@ -1,6 +1,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/style/main.css">
+    <title>Mod panel</title>
 </head>
 <body>
     {% if permission == "admin" %}
@@ -8,7 +9,9 @@
             <h3>Admin options</h3>
             <div class="inner">
                 <a href="/mod.php?create_board">Create a new board.</a><br/>
-                <a href="/mod.php?delete_board">Delete an existing board.</a>
+                <a href="/mod.php?delete_board">Delete an existing board.</a><br/>
+                <a href="/mod.php?add_user">Add a new user.</a><br/>
+                <a href="/mod.php?remove_user">Remove an existing user.</a>
             </div>
         </div>
     {% endif %}

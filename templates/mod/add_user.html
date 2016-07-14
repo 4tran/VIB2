@@ -1,0 +1,13 @@
+<div class="post">
+    <form class="post_form" action="/mod/add_user.php" method="POST">
+        <pre>The default value for the password is "password". This can be changed by the user.</pre> 
+        <label for"username">Username: <input type="text" name="username"/><br/>
+        <select name="permission">
+            <option value="admin">Admin</option>
+            <option value="mod">Moderator</option>
+            <option value="jan">Janitor</option>
+        </select><br/>
+        <input type="submit" value="Create user"/>
+    </form>
+</div>
+
