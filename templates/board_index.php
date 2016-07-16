@@ -18,9 +18,24 @@ $page = $_POST['page'];
 function loadPage($page) {
 	global $op_ids, $db, $uri;
     $limit = 10*$page;
-    $query = $db->prepare("select id from (select * from (select * from posts where uri = :uri and id = op order by bump desc limit :limit) x order by bump asc limit 10) x order by bump desc");
+
+    // Find how many posts to display on the page
+    $query = $db->prepare("select count(id) from posts where uri = :uri and id = op");
+    $query->bindValue(':uri', $uri);
+    $query->execute();
+    $display = $query->fetchAll();
+    if ($limit > $display[0][0]) {
+        $display = $display[0][0] - (10 * ($page - 1));
+    }
+    else {
+        $display = 10;
+    }
+    
+    // Select page
+    $query = $db->prepare("select id from (select * from (select * from posts where uri = :uri and id = op order by bump desc limit :limit) x order by bump asc limit :display) x order by bump desc");
     $query->bindValue(':uri', $uri);
     $query->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $query->bindValue(':display', $display, PDO::PARAM_INT);
     $query->execute();
     $op_ids = $query->fetchAll();
 }
