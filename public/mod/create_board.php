@@ -2,36 +2,43 @@
 require '../../res/config.php';
 require $config['root'] . '/res/twig_loader.php';
 
-// Set variables to be used more than once from user submission.
-$uri = $_POST['uri'];
-$title = $_POST['title'];
-$subtitle = $_POST['subtitle'];
+// Check for valid login before doing anything.
+session_start();
+if ($_SESSION['permission'] == 'admin') {
+    // Set variables to be used more than once from user submission.
+    $uri = $_POST['uri'];
+    $title = $_POST['title'];
+    $subtitle = $_POST['subtitle'];
 
-// Prepare query to insert new board into db.
-$query = "insert into boards (uri, title, subtitle) values (:uri, :title, :subtitle)";
-$query = $db->prepare($query);
+    // Prepare query to insert new board into db.
+    $query = "insert into boards (uri, title, subtitle) values (:uri, :title, :subtitle)";
+    $query = $db->prepare($query);
 
-// Bind user submitted variables to query.
-$query->bindValue(':uri', $uri);
-$query->bindValue(':title', $title);
-$query->bindValue(':subtitle', $subtitle);
+    // Bind user submitted variables to query.
+    $query->bindValue(':uri', $uri);
+    $query->bindValue(':title', $title);
+    $query->bindValue(':subtitle', $subtitle);
 
-// Execute the query.
-$query->execute();
+    // Execute the query.
+    $query->execute();
 
-// Create directory for board files to be stored in.
-if (!file_exists($config['root'] . "/public/$uri")) {
-    mkdir($config['root'] . "/public/$uri", 0777, true);
+    // Create directory for board files to be stored in.
+    if (!file_exists($config['root'] . "/public/$uri")) {
+        mkdir($config['root'] . "/public/$uri", 0777, true);
+    }
+
+    // Create json file with general information. 
+    $index_json = $twig->render('board_index.json', array('uri' => $uri, 'title' => $title, 'subtitle' => $subtitle));
+    $file_index_json = fopen($config['root'] . "/public/$uri/index.json", "w");
+    fwrite($file_index_json, $index_json);
+    fclose($file_index_json);
+
+    // Create board index.
+    copy($config['root'] . "/templates/board_index.php", $config['root'] . "/public/$uri/index.php");
+
+    header("Location: /$uri");
 }
-
-// Create json file with general information. 
-$index_json = $twig->render('board_index.json', array('uri' => $uri, 'title' => $title, 'subtitle' => $subtitle));
-$file_index_json = fopen($config['root'] . "/public/$uri/index.json", "w");
-fwrite($file_index_json, $index_json);
-fclose($file_index_json);
-
-// Create board index.
-copy($config['root'] . "/templates/board_index.php", $config['root'] . "/public/$uri/index.php");
-
-header("Location: /$uri");
+else {
+    echo "Invalid login.";
+}
 ?>
