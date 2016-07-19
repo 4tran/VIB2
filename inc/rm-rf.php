@@ -17,5 +17,4 @@ function rmrf($path) {
     }
     rmdir($path);
 }
-rmrf("/var/www/public/test1");
 ?>

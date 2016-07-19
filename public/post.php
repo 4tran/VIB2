@@ -12,6 +12,9 @@ $image = $_FILES['image'];
 $ip = $_SERVER['REMOTE_ADDR'];
 $dir = $config['root'] . "/public/$uri";
 $errors = array();
+session_start();
+$permission = $_SESSION['permission'];
+$capcode = $_POST['capcode'];
 
 // Things that are true of both new threads and replies.
 // Set default name if user submitted name is blank.
@@ -41,6 +44,17 @@ if ($type == 'thread') {
 // Set thread title.
 if ($type == 'thread') {
     $title = substr(trim(preg_replace("/\s+/", " ", $content)), 0, 20);
+}
+
+// Capcode
+if (!empty($permission) && !empty($capcode)) {
+    if ($capcode == 'admin') {
+        $capcode = 'Admin';
+    }
+    else if ($capcode == 'mod') {
+        $capcode = 'Moderator';
+    }
+    $name = "<p class=\"$capcode\">$name ## $capcode</p>";
 }
 
 $content = htmlspecialchars($content);

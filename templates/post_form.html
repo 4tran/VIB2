@@ -3,7 +3,11 @@
         <input type="hidden" name="uri" value="{{ uri }}"/>
         <input type="hidden" name="op" value="{{ op }}"/>
         <input type="hidden" name="type" value="{{ type }}"/>
-        <label for="name">Name: </label><input type="text" name="name" id="name"/><br/>
+        <label for="name">Name: </label><input type="text" name="name" id="name"/>
+        {% if (permission == 'admin') or (permission == 'mod') %}
+            Capcode: <input type="checkbox" name="capcode" value="{{ permission }}"/>
+        {% endif %}
+        <br/>
         <textarea name="content" id="content" rows="5" cols="40"></textarea><br/>
         <input type="hidden" name="MAX_FILE_SIZE" value="5000000"/>
         <input type="file" name="image" id="image"/><br/>  

@@ -2,6 +2,10 @@
 require '../../res/config.php';
 require $config['root'] . '/res/twig_loader.php';
 
+// Check for mod login
+session_start();
+$permission = $_SESSION['permission'];
+
 // Get list of boards
 $query = $db->prepare("select uri from boards");
 $query->execute();
@@ -68,8 +72,9 @@ $query->execute();
 $posts = $query->fetchAll();
 }
 
-// After all the logic is done, render the index.
+// Render the index.
 echo $twig->render('board_index.html', array(
+    'permission' => $permission,
     'boards' => $boards,
     'title' => $title,
     'subtitle' => $subtitle,

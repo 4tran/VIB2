@@ -61,7 +61,7 @@ form {
     border-color: #1b1b1b;
     padding: 5px 5px 5px 5px;
 }
-input, textarea {
+input, textarea, button {
     background: transparent;
     border-width: 1px;
     border-style: solid;
@@ -108,4 +108,7 @@ pre {
 .inner {
     margin: 5px;
     text-align: left;
+}
+.Admin {
+    color: red;
 }

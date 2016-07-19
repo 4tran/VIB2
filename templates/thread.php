@@ -2,9 +2,12 @@
 require '../../../res/config.php';
 require $config['root'] . '/res/twig_loader.php';
 
+// Check for mod login
+session_start();
+$permission = $_SESSION['permission'];
+
 // Get list of boards
-$query = $db->prepare("select uri from boards");
-$query->execute();
+$query = $db->query("select uri from boards");
 $boards = $query->fetchAll();
 
 // Load board config and set variables to be used more than once.
@@ -14,15 +17,15 @@ $op = $thread['op'];
 $title = $thread['title'];
 
 // Get thread posts.
-$query = "select * from posts where uri = :uri and op = :op order by id asc";
-$query = $db->prepare($query);
+$query = $db->prepare("select * from posts where uri = :uri and op = :op order by id asc");
 $query->bindValue(':uri', $uri);
 $query->bindValue(':op', $op);
 $query->execute();
 $posts = $query->fetchAll();
 
-// After all the logic is done, render the index.
+// Render the index.
 echo $twig->render('thread.html', array(
+    'permission' => $permission,
     'boards' => $boards,
     'title' => $title,
     'posts' => $posts,
