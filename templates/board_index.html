@@ -22,10 +22,10 @@
                     <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a> <a href="{{ post.id }}">[reply]</a>
                     {% if (permission == 'admin') or (permission == 'mod') %}
                         <form method="post" style="float:right;">
-                            <input type="hidden" value="{{ post.uri }}"/>
-                            <input type="hidden" value="{{ post.id }}"/>
+                            <input type="hidden" name="uri" value="{{ post.uri }}"/>
+                            <input type="hidden" name="id" value="{{ post.id }}"/>
                             <button type="submit" formaction="/mod/delete_post.php">Delete</button>
-                            <button type="submit" formaction="/mod/ban_user.php" value="{{ post.ip }}">Ban</button>
+                            <button type="submit" formaction="/mod/ban_user.php" name="ip" value="{{ post.ip }}">Ban</button>
                         </form>
                     {% endif %}
                 </div>
@@ -43,10 +43,10 @@
                             <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a>
                             {% if (permission == 'admin') or (permission ==  'mod') %}
                                 <form method="post" style="float:right;">
-                                    <input type="hidden" value="{{ post.uri }}"/>
-                                    <input type="hidden" value="{{ post.id }}"/>
+                                    <input type="hidden" name="uri" value="{{ post.uri }}"/>
+                                    <input type="hidden" name="id" value="{{ post.id }}"/>
                                     <button type="submit" formaction="/mod/delete_post.php">Delete</button>
-                                    <button type="submit" formaction="/mod/ban_user.php" value="{{ post.ip }}">Ban</button>
+                                    <button type="submit" formaction="/mod/ban_user.php" name="ip" value="{{ post.ip }}">Ban</button>
                                 </form>
                             {% endif %}
                         </div>

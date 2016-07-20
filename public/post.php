@@ -93,7 +93,7 @@ if (count($errors) == 0) {
 
     // If the post is a new thread, some extra stuff's gonna have to be done.
     if ($type == 'thread') {
-		// New threads will always have equal id and op fields.
+        // New threads will always have equal id and op fields.
         $op = $id;
         // Make directory.
         mkdir("$dir/$id", 0777);
@@ -181,9 +181,9 @@ if (count($errors) == 0) {
         values (:uri, :id, :op, :name, :content, :image, :thumbnail, :ip)");
     $query->bindValue(':uri', $uri);
     $query->bindValue(':id', $id);
-	$query->bindValue(':op', $op);
-	$query->bindValue(':name', $name);
-	$query->bindValue(':content', $content);
+    $query->bindValue(':op', $op);
+    $query->bindValue(':name', $name);
+    $query->bindValue(':content', $content);
     $query->bindValue(':image', $image);
     $query->bindValue(':thumbnail', $thumbnail);
     $query->bindValue(':ip', $ip);

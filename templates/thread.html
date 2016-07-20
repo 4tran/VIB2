@@ -17,6 +17,12 @@
         <div class="op">
             <div class="op_info">
                 <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a>
+                <form method="post" style="float:right;">
+                    <input type="hidden" name="uri" value="{{ post.uri }}"/>
+                    <input type="hidden" name="id" value="{{ post.id }}"/>
+                    <button type="submit" formaction="/mod/delete_post.php">Delete</button>
+                    <button type="submit" formaction="/mod/ban_user.php" name="ip" value="{{ post.ip }}">Ban</button>
+                </form>
             </div>
             <div class="image">
                 <img src="{{ post.thumbnail }}" id="{{ post.id }}" onclick="resize({{ post.id }})" alt="Full Size">
@@ -35,6 +41,12 @@
                 <div class="reply_info" id="{{ post.id }}">
             {% endif %}
                 <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a>
+                <form method="post" style="float:right;">
+                    <input type="hidden" name="uri" value="{{ post.uri }}"/>
+                    <input type="hidden" name="id" value="{{ post.id }}"/>
+                    <button type="submit" formaction="/mod/delete_post.php">Delete</button>
+                    <button type="submit" formaction="/mod/ban_user.php" name="ip" value="{{ post.ip }}">Ban</button>
+                </form>
             </div>
             {% if post.image %}
 			<div class="image">
