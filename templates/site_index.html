@@ -18,7 +18,7 @@
         <h3>Latest posts</h3>
         <div class="inner">
             {% for post in posts %}
-                <a href="/{{ post.uri }}/">[{{ post.uri }}]</a> - <p>{{ post.content }}</p> <a href="/{{ post.uri }}/{{ post.op }}#{{ post.id }}">[reply]</a><br/>
+                <a href="/{{ post.uri }}/">[{{ post.uri }}]</a> - <pre>{{ post.content }}</pre> <a href="/{{ post.uri }}/{{ post.op }}#{{ post.id }}">[reply]</a><br/>
             {% endfor %}
         </div>
     </div>
