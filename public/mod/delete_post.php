@@ -8,7 +8,7 @@ $id = $_POST['id'];
 $permission = $_SESSION['permission'];
 
 // Check for valid login. And properly set parameters.
-if (($permission == 'admin' or 'mod') && !empty($id) && !empty($uri)) {
+if (($permission == 'admin' || $permission == 'mod') && !empty($id) && !empty($uri)) {
     $query = $db->prepare("select * from posts where uri = :uri and id = :id");
     $query->bindValue(':uri', $uri);
     $query->bindValue(':id', $id);

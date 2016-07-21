@@ -20,7 +20,7 @@
             <div class="op">
                 <div class="op_info">
                     <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a> <a href="{{ post.id }}">[reply]</a>
-                    {% if (permission == 'admin') or (permission == 'mod') %}
+                    {% if (permission == "admin") or (permission == "mod") %}
                         <form method="post" style="float:right;">
                             <input type="hidden" name="uri" value="{{ post.uri }}"/>
                             <input type="hidden" name="id" value="{{ post.id }}"/>
@@ -41,7 +41,7 @@
                     <div class="reply">    
                         <div class="reply_info">
                             <p>By: {{ post.name }}. Created {{ post.timestamp }} ID: <a href="javascript:quote('>>{{ post.id }}')">{{ post.id }}</a>
-                            {% if (permission == 'admin') or (permission ==  'mod') %}
+                            {% if (permission == "admin") or (permission == "mod") %}
                                 <form method="post" style="float:right;">
                                     <input type="hidden" name="uri" value="{{ post.uri }}"/>
                                     <input type="hidden" name="id" value="{{ post.id }}"/>
