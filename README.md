@@ -12,7 +12,7 @@ I still believe in simplicity and doing as much of my own coding as I can, but I
 So, with this project, I will be using libraries as I see fit, but I won't be using an entire framework, as I see that as mostly unnecessary bulkiness that I wouldn't be able to fully utilize anyway.
 
 ## Installation
-As I did before, I intend for this software to be something relatively easy to install and use. However, that stage of development is still far off.
+Configure config.php in /res/ to your specifications. Ensure the database you select is empty, or the data in it could be overwritten. Then navigate to install.php in your browser, and the necessary tables will be created. From there, navigate to mod.php to set up boards and and users and such. The default admin login combination is admin/admin.
 
 ## License 
 Please see the [LICENSE](https://github.com/4tran/VIB2/blob/master/LICENSE) included in the root of this repository. For a summary, please see [the following site](http://choosealicense.com/licenses/agpl-3.0/).
